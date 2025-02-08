@@ -162,7 +162,7 @@ ollama run Qwen1.5-4B-Chat-F16:latest
 
 
 ## 报错1
-** 训练时报错：NotImplementedError: Cannot copy out of meta tensor; no data! Please use torch.nn.Module.to_empty() instead of torch.nn.Module.to() when moving module from meta to a different device.**
+**训练时报错：NotImplementedError: Cannot copy out of meta tensor; no data! Please use torch.nn.Module.to_empty() instead of torch.nn.Module.to() when moving module from meta to a different device.**
 
 训练时在调用transformers/trainer.py的时候，会报该错。
 源码如下：
@@ -182,11 +182,11 @@ new_value=torch.empty_like(old_value,device="cpu")
 
 
 ## 报错2
-** 推理时候报错：RuntimeError: Placeholder storage has not been allocated on MPS device!**
+**推理时候报错：RuntimeError: Placeholder storage has not been allocated on MPS device!**
 解决方案：关掉电脑高内存应用，强制设置 device = "cpu"。
 
 ## 报错3
-** 合并模型出现报错，自己尝试时候只出现过一次，报错为，模型某一层的key值在某个模块中没找到**
+**合并模型出现报错，自己尝试时候只出现过一次，报错为，模型某一层的key值在某个模块中没找到**
 解决方案：重新微调模型，可能是模型微调出现了中断or其他原因，导致模型结构出现异常
 
 
