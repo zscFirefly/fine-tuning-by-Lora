@@ -12,12 +12,12 @@ pip3 install -r requirements.txt
 
 
 ## step1: 下载模型
-本次微调使用Qwen/Qwen1.5-4B-Chat，通过modelscope下载
+本次微调使用Qwen/Qwen1.5-4B-Chat，通过modelscope下载。维护好train.py中的model_id即可，train.py运行时候，会自动下载。
 
-项目根目录下载模型文件。
+其他下载方式，
 ``` shell
-mkdir -p models/model
-modelscope download --model qwen/Qwen1.5-4B-Chat
+# 下载到~/.cache目录。
+modelscope download --model qwen/Qwen1.5-4B-Chat 
 ```
 
 ## step2: 准备微调语料
@@ -30,7 +30,7 @@ python3 train.py
 ```
 
 说明：
-为提升模型的微调效果，可根据需求调整train.py中训练参数：num_train_epochs。
+为提升模型的微调效果，可根据需求调整train.py中训练参数：num_train_epochs(迭代次数)，
 ``` python
     training_args = TrainingArguments(
         output_dir=checkpoint_dir,
@@ -162,10 +162,27 @@ ollama run Qwen1.5-4B-Chat-F16:latest
 如果模型微调后效果不好，可以关注训练时损失函数下降情况。一般到50～60轮左右，loss会下降到0.0001左右的水平，相应的梯度（grad_norm）跟学习率（learning_rate）也会减少。
 
 ```
-{'loss': 2.1547, 'grad_norm': 1.7821955680847168, 'learning_rate': 7.50001e-05, 'epoch': 5.0}                                                                                                     
-{'loss': 1.1276, 'grad_norm': 1.8993698358535767, 'learning_rate': 5e-05, 'epoch': 10.0}                                                                                                                    
-{'loss': 0.4969, 'grad_norm': 1.6185961961746216, 'learning_rate': 2.5e-05, 'epoch': 15.0}                                                                                                                  
-{'loss': 0.1836, 'grad_norm': 1.139869213104248, 'learning_rate': 0.0, 'epoch': 20.0} 
+{'loss': 3.2201, 'grad_norm': 4.969257831573486, 'learning_rate': 9.5e-05, 'epoch': 5.0}
+{'loss': 1.5577, 'grad_norm': 1.9476478099822998, 'learning_rate': 9e-05, 'epoch': 10.0}
+{'loss': 0.7901, 'grad_norm': 2.8456532955169678, 'learning_rate': 8.5e-05, 'epoch': 15.0}
+{'loss': 0.1381, 'grad_norm': 0.3789016008377075, 'learning_rate': 8e-05, 'epoch': 20.0}
+{'loss': 0.0045, 'grad_norm': 0.06659594923257828, 'learning_rate': 7.5e-05, 'epoch': 25.0}
+{'loss': 0.0014, 'grad_norm': 0.034729525446891785, 'learning_rate': 7e-05, 'epoch': 30.0}
+{'loss': 0.0007, 'grad_norm': 0.020955145359039307, 'learning_rate': 6.5e-05, 'epoch': 35.0}
+{'loss': 0.0005, 'grad_norm': 0.01589277759194374, 'learning_rate': 6e-05, 'epoch': 40.0}
+{'loss': 0.0003, 'grad_norm': 0.013618703931570053, 'learning_rate': 5.5e-05, 'epoch': 45.0}
+{'loss': 0.0003, 'grad_norm': 0.01169560570269823, 'learning_rate': 5e-05, 'epoch': 50.0}
+{'loss': 0.0002, 'grad_norm': 0.010867319069802761, 'learning_rate': 4.5e-05, 'epoch': 55.0}
+{'loss': 0.0002, 'grad_norm': 0.010721373371779919, 'learning_rate': 4e-05, 'epoch': 60.0}
+{'loss': 0.0002, 'grad_norm': 0.010178590193390846, 'learning_rate': 3.5e-05, 'epoch': 65.0}
+{'loss': 0.0002, 'grad_norm': 0.009332481771707535, 'learning_rate': 3e-05, 'epoch': 70.0}
+{'loss': 0.0002, 'grad_norm': 0.009383821859955788, 'learning_rate': 2.5e-05, 'epoch': 75.0}
+{'loss': 0.0002, 'grad_norm': 0.008890513330698013, 'learning_rate': 2e-05, 'epoch': 80.0}
+{'loss': 0.0002, 'grad_norm': 0.008669395931065083, 'learning_rate': 1.5e-05, 'epoch': 85.0}
+{'loss': 0.0002, 'grad_norm': 0.00943685695528984, 'learning_rate': 1e-05, 'epoch': 90.0}
+{'loss': 0.0002, 'grad_norm': 0.0088260592892766, 'learning_rate': 5e-06, 'epoch': 95.0}
+{'loss': 0.0002, 'grad_norm': 0.008713439106941223, 'learning_rate': 0.0, 'epoch': 100.0}
+{'train_runtime': 3008.4296, 'train_samples_per_second': 0.532, 'train_steps_per_second': 0.033, 'train_loss': 0.2857893861143384, 'epoch': 100.0}
 ```
 
 

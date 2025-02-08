@@ -5,6 +5,7 @@ from peft import LoraConfig, TaskType, get_peft_model
 
 
 model_id = 'qwen/Qwen1.5-4B-Chat'
+# model_id = 'Qwen/Qwen2.5-3B-Instruct'
 device = "cpu"
 models_dir = './models'
 model_path = f"{models_dir}/model/{model_id.replace('.', '___')}"

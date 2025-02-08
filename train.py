@@ -9,12 +9,15 @@ from peft import LoraConfig, TaskType, get_peft_model, PeftModel
 # https://www.modelscope.cn/studios/LLM-Research/Chat_Llama-3-8B/summary
 # model_id = 'LLM-Research/Meta-Llama-3-8B-Instruct'
 model_id = 'qwen/Qwen1.5-4B-Chat'
+# model_id = 'Qwen/Qwen2.5-3B-Instruct'
+
+
 # https://www.modelscope.cn/models/qwen/Qwen1.5-4B-Chat/summary
 # model_id = 'qwen/Qwen1.5-4B-Chat'
 
 # 检查CUDA是否可用，然后检查MPS是否可用，最后回退到CPU
 # device = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
-device = "cpu"
+device = "mps"
 models_dir = './models'
 dataset_file = './dataset/huanhuan.json'
 # modelscope/hub/snapshot_download.py:75 会把模型改名 name = name.replace('.', '___')
@@ -85,7 +88,7 @@ def train():
         per_device_train_batch_size=4,
         gradient_accumulation_steps=4,
         logging_steps=5,
-        num_train_epochs=40,
+        num_train_epochs=100,
         save_steps=100,
         learning_rate=1e-4,
         save_on_each_node=True,
@@ -140,6 +143,6 @@ def infer(prompt="你是谁？"):
 
 
 if __name__ == '__main__':
-    # train()
+    train()
     res = infer(prompt="你好")
     print(res)
