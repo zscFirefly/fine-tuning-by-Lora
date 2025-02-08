@@ -149,6 +149,12 @@ ollama run Qwen1.5-4B-Chat-F16:latest
 说明：如果Modelfile中的TEMPLATE跟PARAMETER参数没写，模型推理结果也可能胡说八道。
 
 
+打包到ollama之后，可以直接把模型接入到dify。
+
+![示例图片](./images/接入dify.png "dify对话")
+
+
+
 # 踩坑过程
 ## 经验1
 一般在微调的时候，需要关注模型的loss情况，自己训练20轮的话，损失函数的值能看到在收敛，但还是还没完全收敛。
