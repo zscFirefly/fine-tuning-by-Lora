@@ -149,6 +149,47 @@ ollama run Qwen1.5-4B-Chat-F16:latest
 说明：如果Modelfile中的TEMPLATE跟PARAMETER参数没写，模型推理结果也可能胡说八道。
 
 
+# 踩坑过程
+## 经验1
+一般在微调的时候，需要关注模型的loss情况，自己训练20轮的话，损失函数的值能看到在收敛，但还是还没完全收敛。如果模型微调后效果不好，可以关注训练时损失函数下降情况。一般到50～60轮左右，loss会下降到0.0001左右的水平，相应的梯度（grad_norm）跟学习率（learning_rate）也会减少。
+
+```
+{'loss': 2.1547, 'grad_norm': 1.7821955680847168, 'learning_rate': 7.50001e-05, 'epoch': 5.0}                                                                                                     
+{'loss': 1.1276, 'grad_norm': 1.8993698358535767, 'learning_rate': 5e-05, 'epoch': 10.0}                                                                                                                    
+{'loss': 0.4969, 'grad_norm': 1.6185961961746216, 'learning_rate': 2.5e-05, 'epoch': 15.0}                                                                                                                  
+{'loss': 0.1836, 'grad_norm': 1.139869213104248, 'learning_rate': 0.0, 'epoch': 20.0} 
+```
+
+
+## 报错1
+** 训练时报错：NotImplementedError: Cannot copy out of meta tensor; no data! Please use torch.nn.Module.to_empty() instead of torch.nn.Module.to() when moving module from meta to a different device.**
+
+训练时在调用transformers/trainer.py的时候，会报该错。
+源码如下：
+```python
+model = model.to(device)
+```
+尝试了如下方式:
+```python
+#修改方式
+#origin: new_value=old_value.to("cpu"),下面两种写法任选其一
+new_value=torch.tensor(old_value,device="cpu")
+new_value=torch.empty_like(old_value,device="cpu")
+
+```
+不好使！
+最后好使的方式是关掉电脑中高内存的应用，给程序提供足够的资源。
+
+
+## 报错2
+** 推理时候报错：RuntimeError: Placeholder storage has not been allocated on MPS device!**
+解决方案：关掉电脑高内存应用，强制设置 device = "cpu"。
+
+## 报错3
+** 合并模型出现报错，自己尝试时候只出现过一次，报错为，模型某一层的key值在某个模块中没找到**
+解决方案：重新微调模型，可能是模型微调出现了中断or其他原因，导致模型结构出现异常
+
+
 参考文档：
 [Mac M2之LLaMA3-8B微调（llama3-fine-tuning）](https://www.junyao.tech/posts/e45a9231.html)
 

@@ -85,7 +85,7 @@ def train():
         per_device_train_batch_size=4,
         gradient_accumulation_steps=4,
         logging_steps=5,
-        num_train_epochs=20,
+        num_train_epochs=40,
         save_steps=100,
         learning_rate=1e-4,
         save_on_each_node=True,
