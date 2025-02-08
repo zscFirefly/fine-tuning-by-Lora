@@ -143,12 +143,12 @@ ollama run Qwen1.5-4B-Chat:latest
 ```
 
 效果如下：
-[pic]
+![示例图片](./images/微调效果1.png "微调效果")
 
 
 说明：如果Modelfile中的TEMPLATE跟PARAMETER参数没写，模型推理结果也可能胡说八道。
 
 
-参考文档；
+参考文档：
 [Mac M2之LLaMA3-8B微调（llama3-fine-tuning）](https://www.junyao.tech/posts/e45a9231.html)
 
