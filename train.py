@@ -84,7 +84,7 @@ def train():
         output_dir=checkpoint_dir,
         per_device_train_batch_size=4,
         gradient_accumulation_steps=4,
-        logging_steps=10,
+        logging_steps=5,
         num_train_epochs=20,
         save_steps=100,
         learning_rate=1e-4,

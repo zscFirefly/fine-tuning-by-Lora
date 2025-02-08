@@ -7,7 +7,7 @@
 ``` shell
 conda create --name fine-tuning python=3.10
 conda activate fine-tuning
-pip3 install -r requriements.txt
+pip3 install -r requirements.txt
 ```
 
 
@@ -107,7 +107,7 @@ make
 ```
 转化为gguf文件
 ```shell
-python convert_hf_to_gguf.py ../llama3-ft/models/output/qwen/Qwen1.5-4B-Chat --outtype f16 --outfile ../llama3-ft/models/
+python convert_hf_to_gguf.py ../fine-tuning-by-Lora/models/output/qwen/Qwen1.5-4B-Chat --outtype f16 --outfile ../fine-tuning-by-Lora/models/
 ```
 
 ### step6.2 打包模型文件
@@ -139,7 +139,7 @@ ollama create Qwen1.5-4B-Chat-F16 -f Modelfile
 
 ### step6.3 运行
 ```shell
-ollama run Qwen1.5-4B-Chat:latest
+ollama run Qwen1.5-4B-Chat-F16:latest
 ```
 
 效果如下：
